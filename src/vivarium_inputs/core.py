@@ -119,8 +119,8 @@ def get_incidence_rate(entity: Union[Cause, Sequela], location_id: int) -> pd.Da
     return data.fillna(0)
 
 
-def get_prevalence(entity: Union[Cause, Sequela], location_id: int) -> pd.DataFrame:
-    data = extract.extract_data(entity, "prevalence", location_id)
+def get_prevalence(entity: Union[Cause, Sequela], location_id: int, **get_draws_kwargs) -> pd.DataFrame:
+    data = extract.extract_data(entity, "prevalence", location_id, **get_draws_kwargs)
     if entity.kind == "cause":
         restrictions_entity = entity
     else:  # sequela

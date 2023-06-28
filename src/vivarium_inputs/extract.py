@@ -129,25 +129,25 @@ def extract_data(
     return data
 
 
-def extract_prevalence(entity: Union[Cause, Sequela], location_id: int) -> pd.DataFrame:
+def extract_prevalence(entity: Union[Cause, Sequela], location_id: int, **get_draws_kwargs) -> pd.DataFrame:
     data = gbd.get_incidence_prevalence(
-        entity_id=entity.gbd_id, location_id=location_id, entity_type=entity.kind
+        entity_id=entity.gbd_id, location_id=location_id, entity_type=entity.kind, **get_draws_kwargs
     )
     data = data[data.measure_id == MEASURES["Prevalence"]]
     return data
 
 
-def extract_incidence_rate(entity: Union[Cause, Sequela], location_id: int) -> pd.DataFrame:
+def extract_incidence_rate(entity: Union[Cause, Sequela], location_id: int, **get_draws_kwargs) -> pd.DataFrame:
     data = gbd.get_incidence_prevalence(
-        entity_id=entity.gbd_id, location_id=location_id, entity_type=entity.kind
+        entity_id=entity.gbd_id, location_id=location_id, entity_type=entity.kind, **get_draws_kwargs
     )
     data = data[data.measure_id == MEASURES["Incidence rate"]]
     return data
 
 
-def extract_birth_prevalence(entity: Union[Cause, Sequela], location_id: int) -> pd.DataFrame:
+def extract_birth_prevalence(entity: Union[Cause, Sequela], location_id: int, **get_draws_kwargs) -> pd.DataFrame:
     data = gbd.get_birth_prevalence(
-        entity_id=entity.gbd_id, location_id=location_id, entity_type=entity.kind
+        entity_id=entity.gbd_id, location_id=location_id, entity_type=entity.kind, **get_draws_kwargs
     )
     data = data[data.measure_id == MEASURES["Incidence rate"]]
     return data
