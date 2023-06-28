@@ -95,8 +95,8 @@ def get_data(entity, measure: str, location: Union[str, int], **get_draws_kwargs
     return data
 
 
-def get_raw_incidence_rate(entity: Union[Cause, Sequela], location_id: int) -> pd.DataFrame:
-    data = extract.extract_data(entity, "incidence_rate", location_id)
+def get_raw_incidence_rate(entity: Union[Cause, Sequela], location_id: int, **get_draws_kwargs) -> pd.DataFrame:
+    data = extract.extract_data(entity, "incidence_rate", location_id, **get_draws_kwargs)
     if entity.kind == "cause":
         restrictions_entity = entity
     else:  # sequela
@@ -111,9 +111,9 @@ def get_raw_incidence_rate(entity: Union[Cause, Sequela], location_id: int) -> p
     return data
 
 
-def get_incidence_rate(entity: Union[Cause, Sequela], location_id: int) -> pd.DataFrame:
-    data = get_data(entity, "raw_incidence_rate", location_id)
-    prevalence = get_data(entity, "prevalence", location_id)
+def get_incidence_rate(entity: Union[Cause, Sequela], location_id: int, **get_draws_kwargs) -> pd.DataFrame:
+    data = get_data(entity, "raw_incidence_rate", location_id, **get_draws_kwargs)
+    prevalence = get_data(entity, "prevalence", location_id, **get_draws_kwargs)
     # Convert from "True incidence" to the incidence rate among susceptibles
     data /= 1 - prevalence
     return data.fillna(0)
@@ -135,8 +135,8 @@ def get_prevalence(entity: Union[Cause, Sequela], location_id: int, **get_draws_
     return data
 
 
-def get_birth_prevalence(entity: Union[Cause, Sequela], location_id: int) -> pd.DataFrame:
-    data = extract.extract_data(entity, "birth_prevalence", location_id)
+def get_birth_prevalence(entity: Union[Cause, Sequela], location_id: int, **get_draws_kwargs) -> pd.DataFrame:
+    data = extract.extract_data(entity, "birth_prevalence", location_id, **get_draws_kwargs)
     data = data.filter(["year_id", "sex_id", "location_id"] + DRAW_COLUMNS)
     data = utilities.normalize(data, fill_value=0)
     return data
